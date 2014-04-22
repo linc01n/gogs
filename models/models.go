@@ -32,7 +32,7 @@ var (
 )
 
 func init() {
-	tables = append(tables, new(User), new(PublicKey), new(Repository), new(Watch),
+	tables = append(tables, new(User).StoreEngine("InnoDB"), new(PublicKey), new(Repository), new(Watch),
 		new(Action), new(Access), new(Issue), new(Comment), new(Oauth2), new(Follow),
 		new(Mirror), new(Release))
 }
@@ -131,7 +131,7 @@ func NewEngine() (err error) {
 	if err = SetEngine(); err != nil {
 		return err
 	}
-	if err = orm.Sync(tables...).StoreEngine("InnoDB"); err != nil {
+	if err = orm.Sync(tables...); err != nil {
 		return fmt.Errorf("sync database struct error: %v\n", err)
 	}
 	return nil
