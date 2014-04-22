@@ -54,7 +54,7 @@ func NewTestEngine(x *xorm.Engine) (err error) {
 	switch DbCfg.Type {
 	case "mysql":
 		x, err = xorm.NewEngine("mysql", fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8",
-			DbCfg.User, DbCfg.Pwd, DbCfg.Host, DbCfg.Name))
+			DbCfg.User, DbCfg.Pwd, DbCfg.Host, DbCfg.Name)).StoreEngine("InnoDB")
 	case "postgres":
 		var host, port = "127.0.0.1", "5432"
 		fields := strings.Split(DbCfg.Host, ":")
@@ -87,7 +87,7 @@ func SetEngine() (err error) {
 	switch DbCfg.Type {
 	case "mysql":
 		orm, err = xorm.NewEngine("mysql", fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8",
-			DbCfg.User, DbCfg.Pwd, DbCfg.Host, DbCfg.Name))
+			DbCfg.User, DbCfg.Pwd, DbCfg.Host, DbCfg.Name)).StoreEngine("InnoDB")
 	case "postgres":
 		var host, port = "127.0.0.1", "5432"
 		fields := strings.Split(DbCfg.Host, ":")
