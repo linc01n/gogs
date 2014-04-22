@@ -131,7 +131,7 @@ func NewEngine() (err error) {
 	if err = SetEngine(); err != nil {
 		return err
 	}
-	if err = orm.StoreEngine("InnoDB").Sync(tables...); err != nil {
+	if err = orm.Sync(tables...).StoreEngine("InnoDB"); err != nil {
 		return fmt.Errorf("sync database struct error: %v\n", err)
 	}
 	return nil
