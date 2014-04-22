@@ -55,7 +55,6 @@ func NewTestEngine(x *xorm.Engine) (err error) {
 	case "mysql":
 		x, err = xorm.NewEngine("mysql", fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8",
 			DbCfg.User, DbCfg.Pwd, DbCfg.Host, DbCfg.Name))
-		x.StoreEngine("InnoDB")
 	case "postgres":
 		var host, port = "127.0.0.1", "5432"
 		fields := strings.Split(DbCfg.Host, ":")
@@ -89,7 +88,6 @@ func SetEngine() (err error) {
 	case "mysql":
 		orm, err = xorm.NewEngine("mysql", fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8",
 			DbCfg.User, DbCfg.Pwd, DbCfg.Host, DbCfg.Name))
-		orm.StoreEngine("InnoDB")
 	case "postgres":
 		var host, port = "127.0.0.1", "5432"
 		fields := strings.Split(DbCfg.Host, ":")
@@ -133,7 +131,7 @@ func NewEngine() (err error) {
 	if err = SetEngine(); err != nil {
 		return err
 	}
-	if err = orm.Sync(tables...); err != nil {
+	if err = orm.StoreEngine("InnoDB").Sync(tables...); err != nil {
 		return fmt.Errorf("sync database struct error: %v\n", err)
 	}
 	return nil
